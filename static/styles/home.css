@@ -1,0 +1,52 @@
+body {
+	background-color: rgba(100, 180, 170, 0.3);
+}
+.container {
+       display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 80vh;
+
+}.vend-button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 28px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.vend-button:hover {
+    background-color: orange;
+}
+
+.selected-label {
+    font-weight: italic;
+    font-size: 20px;
+    color: red; /* Change the color to make sure the style is applied */
+}
+
+footer {
+    background-color: rgba(29, 70, 12, 0.6);
+    padding: 29px;
+    text-align: center;
+}
+
+footer p {
+    margin: 0; /* Remove default margin to prevent spacing */
+    font-size: 14px;
+    color: white;
+}
+
+#homepage-message {
+    text-align: center;
+    font-size: 24px;
+    font-weight: arial;
+    color: #333;
+    padding: 20px;
+    max-width: 800px;
+    line-height: 1.6;
+    margin: 40px auto;
+    padding: 20px;
+}

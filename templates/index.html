@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products</title>
+</head>
+<body>
+    <h1>Select a Product:</h1>
+    <form method="post" action="/">
+        <select name="product">
+            {% for product in products %}
+            <option value="{{ loop.index0 }}">{{ product.name }} - USD: ${{ product.price }} - Local: {{ product.local_price }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        Customer MSISDN: <input type="text" name="customer_msisdn">
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
+

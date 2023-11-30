@@ -1,0 +1,61 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airtime Vending</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/home.css') }}">
+
+
+</head>
+<body>
+	<header>
+        <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+	    <li><a href="register">Register Here</a></li>
+        </ul>
+    </header>
+    <div class="container">
+        <h1>Connect Beyond Distances with Remittance</h1>
+	<p id="homepage-message">
+    Embrace Uninterrupted Connections. Pay Bills Anywhere. Stay Rooted.
+
+    Welcome to Remittance – Your Gateway to Seamless Diaspora Connectivity. &#10084;
+</p>
+      
+        <form method="post">
+            <label for="customer_msisdn">Customer's Mobile Phone Number:</label>
+            <input type="text" id="customer_msisdn" name="customer_msisdn" required><br><br>
+
+            <label for="amount">Select Amount:</label>
+            <select id="amount" name="amount" required>
+                <option value="" disabled selected>Select amount</option>
+                {% for usd_price, local_price in price_list.items() %}
+                <option value="{{ usd_price }}">{{ usd_price }} USD ({{ local_price }} local currency)</option>
+                {% endfor %}
+            </select><br><br>
+
+            <input class="vend-button" type="submit" value="BUY NOW">
+        </form>
+
+        <div class="selected-amount">
+            {% if selected_usd_amount %}
+           <p>
+
+	   <span class="selected-label">Selected Amount:</span>
+	   <span class="usd-amount">{{ selected_usd_amount }} USD</span>
+	   <span class="local-amount">({{ selected_local_amount }} local currency)</span>
+
+	   </p>
+
+            {% endif %}
+        </div>
+    </div>
+    <footer>
+    <p>&copy; 2023 Remmittance LLC. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
