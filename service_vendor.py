@@ -1,7 +1,7 @@
 import requests
 import json
 
-class Airtime:
+class ServiceVendor:
     """
     A class for vending airtime using the provided API.
     """

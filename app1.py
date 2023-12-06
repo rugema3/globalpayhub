@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, session
-from airtime import Airtime
+from service_vendor import ServiceVendor
 from paypal_handler import PayPalHandler
 from credentials import PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET
 import secrets
@@ -17,8 +17,8 @@ base_url = os.getenv("AIRTIME_BASE_URL")
 access_token = os.getenv("AIRTIME_ACCESS_TOKEN")
 vertical_id = "airtime"  
 
-# Create instances of Airtime and PayPalHandler
-airtime = Airtime(base_url, access_token)
+# Create instances of ServiceVendor and PayPalHandler
+airtime = ServiceVendor(base_url, access_token)
 paypal_handler = PayPalHandler(PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET)
 
 # Home route
