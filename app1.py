@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from flask import Flask, render_template, request, redirect, session
 from service_vendor import ServiceVendor
 from paypal_handler import PayPalHandler
@@ -9,22 +10,29 @@ from dotenv import load_dotenv
 # Load environment variables from .env
 load_dotenv()
 
+# Check if the required environment variables are set
+if not PAYPAL_CLIENT_ID or not PAYPAL_CLIENT_SECRET:
+    raise ValueError("PayPal credentials are not set. Please set "
+                     "PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET "
+                     "in the credentials.py file.")
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static', static_folder='static')
 app.secret_key = secrets.token_hex(32)  # Generate a random secret key
 
 base_url = os.getenv("AIRTIME_BASE_URL")
-access_token = os.getenv("AIRTIME_ACCESS_TOKEN")
+api_key = os.getenv("api_key")
+api_secret = os.getenv("api_secret")
+
 vertical_id = "airtime"  
 
 # Create instances of ServiceVendor and PayPalHandler
-airtime = ServiceVendor(base_url, access_token)
+airtime = ServiceVendor(base_url, api_key=api_key, api_secret=api_secret)
 paypal_handler = PayPalHandler(PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET)
 
 # Home route
 @app.route('/')
 def home():
-    return render_template('initiate_transaction.html')
+    return render_template('index2.html')
 
 # Initiate transaction route
 @app.route('/initiate_transaction', methods=['GET', 'POST'])
@@ -81,17 +89,21 @@ def execute_payment():
     deliver_to = transaction_info['deliver_to']
     callback = transaction_info['callback']
 
+    print(f"trx_id: {trx_id}")
+    print(f"delivery_method: {delivery_method}")
+
     # Execute the PayPal payment
     success, error_message = paypal_handler.execute_payment(request.args.get('paymentId'), request.args.get('PayerID'))
 
     if success:
         # Perform vend execution with the retrieved information
         execute_response = airtime.vend_execute(trx_id, customer_account_number, usd_amount, vertical_id, delivery_method, deliver_to, callback)
+        print(f"execute_response: {execute_response}")
         return render_template('success.html', execute_response=execute_response)
     else:
         # Handle payment execution failure
         return render_template('error.html', error_message=error_message)
 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
-

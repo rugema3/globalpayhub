@@ -1,21 +1,33 @@
 import requests
 import json
+from access_token import get_token  # Import the get_token function
 
 class ServiceVendor:
     """
     A class for vending airtime using the provided API.
     """
-
-    def __init__(self, base_url, access_token):
+    def __init__(self, base_url, api_key, api_secret):
         """
         Initialize the Airtime instance.
 
         Parameters:
         - base_url (str): The base URL of the vending API.
-        - access_token (str): The access token used for authentication.
+        - api_key (str): The API key used for authentication.
+        - api_secret (str): The API secret used for authentication.
         """
         self.base_url = base_url
-        self.access_token = access_token
+        self.api_key = api_key
+        self.api_secret = api_secret
+        self.access_token = self.generate_access_token()
+
+    def generate_access_token(self):
+        """
+        Generate an access token using the provided API key and API secret.
+
+        Returns:
+        - str: The obtained access token.
+        """
+        return get_token()  # Call the get_token function to obtain the access token
 
     def perform_authenticated_request(self, url, method="GET", data=None):
         """
@@ -41,6 +53,12 @@ class ServiceVendor:
             response = requests.post(url, headers=headers, json=data)
         else:
             raise ValueError(f"Unsupported HTTP method: {method}")
+
+        if response.status_code == 401:
+            # If the request returns unauthorized, refresh the access token and retry
+            self.access_token = self.generate_access_token()
+            headers["Authorization"] = f"Bearer {self.access_token}"
+            response = requests.get(url, headers=headers) if method == "GET" else requests.post(url, headers=headers, json=data)
 
         return response.json()
 
@@ -125,10 +143,9 @@ class ServiceVendor:
 if __name__ == "__main__":
     # Replace with your actual values
     base_url = "https://sb-api.efashe.com/rw/v2"
-    access_token = "access_token"
 
     # Create an instance of Airtime
-    airtime = Airtime(base_url, access_token)
+    airtime = ServiceVendor(base_url, api_key, api_secret)
 
     # Replace with your actual values
     vertical_id = "airtime"

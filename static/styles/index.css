@@ -1,0 +1,114 @@
+/* Reset some default styles */
+body, h1, h2, p, ul, li, a {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    margin: 0 15px;
+}
+
+/* Hero Section Styles */
+.hero {
+    text-align: center;
+    padding: 50px 0;
+    background-color: #f4f4f4;
+}
+
+.hero h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    text-decoration: none;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+}
+
+/* Service Offerings Section Styles */
+.services {
+    display: flex;
+    justify-content: space-around;
+    padding: 50px 0;
+    background-color: #fff;
+}
+
+.service {
+    text-align: center;
+}
+
+.service h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+/* How It Works Section Styles */
+.how-it-works {
+    text-align: center;
+    padding: 50px 0;
+    background-color: #f4f4f4;
+}
+
+.how-it-works h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.how-it-works ol {
+    list-style: none;
+}
+
+.how-it-works li {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+/* Previous CSS styles remain unchanged */
+
+/* Button Styles */
+.purchase-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    text-decoration: none;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.purchase-button:hover {
+    background-color: #555;
+}
+

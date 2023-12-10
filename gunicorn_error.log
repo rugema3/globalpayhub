@@ -1,0 +1,79 @@
+[2023-12-10 11:13:35 +0200] [120226] [INFO] Starting gunicorn 21.2.0
+[2023-12-10 11:13:35 +0200] [120226] [INFO] Listening at: http://127.0.0.1:8000 (120226)
+[2023-12-10 11:13:35 +0200] [120226] [INFO] Using worker: sync
+[2023-12-10 11:13:35 +0200] [120227] [INFO] Booting worker with pid: 120227
+[2023-12-10 11:13:35 +0200] [120228] [INFO] Booting worker with pid: 120228
+[2023-12-10 11:13:35 +0200] [120229] [INFO] Booting worker with pid: 120229
+[2023-12-10 11:13:35 +0200] [120230] [INFO] Booting worker with pid: 120230
+[2023-12-10 11:15:01 +0200] [120226] [INFO] Handling signal: int
+[2023-12-10 11:15:01 +0200] [120228] [INFO] Worker exiting (pid: 120228)
+[2023-12-10 11:15:01 +0200] [120227] [INFO] Worker exiting (pid: 120227)
+[2023-12-10 11:15:01 +0200] [120230] [INFO] Worker exiting (pid: 120230)
+[2023-12-10 11:15:01 +0200] [120229] [INFO] Worker exiting (pid: 120229)
+[2023-12-10 11:15:01 +0200] [120226] [INFO] Shutting down: Master
+[2023-12-10 11:20:02 +0200] [120317] [INFO] Starting gunicorn 20.1.0
+[2023-12-10 11:20:02 +0200] [120317] [INFO] Listening at: http://127.0.0.1:8000 (120317)
+[2023-12-10 11:20:02 +0200] [120317] [INFO] Using worker: sync
+[2023-12-10 11:20:02 +0200] [120318] [INFO] Booting worker with pid: 120318
+[2023-12-10 11:20:02 +0200] [120318] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/usr/lib/python3/dist-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/usr/lib/python3/dist-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+                ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+                    ^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/gunicorn/util.py", line 384, in import_app
+    mod = importlib.import_module(module)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'app1'
+[2023-12-10 11:20:02 +0200] [120318] [INFO] Worker exiting (pid: 120318)
+[2023-12-10 11:20:02 +0200] [120319] [INFO] Booting worker with pid: 120319
+[2023-12-10 11:20:02 +0200] [120319] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/usr/lib/python3/dist-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/usr/lib/python3/dist-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+                ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+                    ^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/gunicorn/util.py", line 384, in import_app
+    mod = importlib.import_module(module)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'app1'
+[2023-12-10 11:20:02 +0200] [120319] [INFO] Worker exiting (pid: 120319)
+[2023-12-10 11:20:02 +0200] [120317] [WARNING] Worker with pid 120319 was terminated due to signal 15
+[2023-12-10 11:20:02 +0200] [120317] [INFO] Shutting down: Master
+[2023-12-10 11:20:02 +0200] [120317] [INFO] Reason: Worker failed to boot.

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <!-- Add any additional styles or scripts if needed -->
+</head>
+<body>
+    <div>
+        <h1>Payment Successful!</h1>
+        <p>Your payment was successful. Thank you for your purchase!</p>
+
+        <!-- Display Transaction Details -->
+        <h2>Transaction Details</h2>
+        <ul>
+            <li><strong>Transaction ID:</strong> {{ execute_response.transaction_id }}</li>
+            <li><strong>Amount:</strong> {{ execute_response.amount }}</li>
+            <!-- Add more details as needed -->
+        </ul>
+
+        <!-- Add any additional content or links as needed -->
+
+    </div>
+</body>
+</html>
+
