@@ -32,11 +32,31 @@ paypal_handler = PayPalHandler(PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECR
 # Home route
 @app.route('/')
 def home():
+    """
+    Render the home page.
+
+    Returns:
+    - render_template: Renders the 'index2.html' template for the home page.
+    """
     return render_template('index2.html')
 
 # Initiate transaction route
-@app.route('/initiate_transaction', methods=['GET', 'POST'])
-def initiate_transaction():
+@app.route('/vend_airtime', methods=['GET', 'POST'])
+def vend_airtime():
+    """
+    Handle the initiation of an airtime transaction.
+
+    If the request method is POST, retrieves user input from the form, performs vend validation,
+    extracts necessary information for PayPal payment, and saves transaction information in the session.
+    Then, creates a PayPal payment and redirects the user to PayPal for payment.
+
+    For GET requests, renders the 'initiate_transaction.html' template.
+
+    Returns:
+    - redirect: Redirects to PayPal for payment if the request method is POST.
+    - render_template: Renders the 'initiate_transaction.html' template for GET requests.
+    """
+
     if request.method == 'POST':
         # Get the user's input from the form (you might want to add more validation)
         customer_account_number = request.form['customer_account_number']
@@ -68,12 +88,75 @@ def initiate_transaction():
         # Redirect the user to PayPal for payment
         return redirect(paypal_redirect_url)
 
-    # Render the initiate_transaction.html template for GET requests
-    return render_template('initiate_transaction.html')
+    # Render the vend-airtime.html template for GET requests
+    return render_template('vend_airtime.html')
+
+
+# Initiate transaction route
+@app.route('/vend_electricity', methods=['GET', 'POST'])
+def vend_electricity():
+    """
+    Handle the initiation of an electricity transaction.
+
+    If the request method is POST, retrieves user input from the form, performs vend validation,
+    extracts necessary information for PayPal payment, and saves transaction information in the session.
+    Then, creates a PayPal payment and redirects the user to PayPal for payment.
+
+    For GET requests, renders the 'vend_electricity.html' template.
+
+    Returns:
+    - redirect: Redirects to PayPal for payment if the request method is POST.
+    - render_template: Renders the 'vend_electricity.html' template for GET requests.
+    """
+
+    if request.method == 'POST':
+        # Get the user's input from the form
+        customer_account_number = request.form['customer_account_number']
+        usd_amount = float(request.form['usd_amount'])
+        vertical_id = 'electricity'
+
+        # Perform vend validation
+        validate_response = airtime.vend_validate(vertical_id, customer_account_number)
+
+        # Extract necessary information for PayPal payment
+        trx_id = validate_response.get("data", {}).get("trxId", "")
+        delivery_method = validate_response.get("data", {}).get("deliveryMethods", [{}])[0].get("id", "")
+        deliver_to = validate_response.get("data", {}).get("deliverTo", "")
+        callback = validate_response.get("data", {}).get("callback", "")
+
+        # Save necessary information in session for later use in the execute route
+        session['transaction_info'] = {
+            'trx_id': trx_id,
+            'customer_account_number': customer_account_number,
+            'usd_amount': usd_amount,
+            'vertical_id': vertical_id,
+            'delivery_method': delivery_method,
+            'deliver_to': deliver_to,
+            'callback': callback,
+        }
+
+        # Create a PayPal payment and get the redirect URL
+        paypal_redirect_url = paypal_handler.create_payment(usd_amount, customer_account_number, request)
+
+        # Redirect the user to PayPal for payment
+        return redirect(paypal_redirect_url)
+
+    # Render the vend_electricity.html template for GET requests
+    return render_template('vend_electricity.html')
+
 
 # Execute payment route
 @app.route('/execute_payment', methods=['GET', 'POST'])
 def execute_payment():
+    """
+    Handle the execution of a payment and vend operation.
+
+    Retrieves necessary information from the session, including transaction details,
+    executes the PayPal payment, and performs vend execution based on the transaction information.
+
+    Returns:
+    - render_template: Success or error template based on the execution result.
+    """
     # Retrieve necessary information from session
     transaction_info = session.get('transaction_info')
 
@@ -99,6 +182,9 @@ def execute_payment():
         # Perform vend execution with the retrieved information
         execute_response = airtime.vend_execute(trx_id, customer_account_number, usd_amount, vertical_id, delivery_method, deliver_to, callback)
         print(f"execute_response: {execute_response}")
+
+        # Additional logic can be added here if needed for both 'airtime' and 'electricity'
+
         return render_template('success.html', execute_response=execute_response)
     else:
         # Handle payment execution failure

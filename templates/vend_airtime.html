@@ -2,20 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Initiate Electricity Transaction</title>
+    <title>Buy Airtime</title>
 </head>
 <body>
-    <h2>Initiate Electricity Transaction</h2>
-    <form method="post" action="/initiate_electricity_transaction">
-        <label for="customer_account_number">Customer Account Number:</label>
+    <h1>Buy Airtime</h1>
+    <form method="post" action="/vend_airtime">
+        <label for="customer_account_number">Phone Number</label>
         <input type="text" id="customer_account_number" name="customer_account_number" required>
         <br>
+
         <label for="usd_amount">USD Amount:</label>
         <input type="number" id="usd_amount" name="usd_amount" step="0.01" required>
         <br>
-        <input type="submit" value="Initiate Transaction">
+
+        <button type="submit">Buy</button>
     </form>
 </body>
 </html>
