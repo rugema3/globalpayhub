@@ -92,7 +92,7 @@ def vend_airtime():
     return render_template('vend_airtime.html')
 
 
-# Initiate transaction route
+# Vend Electricity route
 @app.route('/vend_electricity', methods=['GET', 'POST'])
 def vend_electricity():
     """
@@ -143,6 +143,58 @@ def vend_electricity():
 
     # Render the vend_electricity.html template for GET requests
     return render_template('vend_electricity.html')
+
+#pay_tv route
+@app.route('/pat_tv', methods=['GET', 'POST'])
+def pay_tv():
+    """
+    Handle the initiation of a TV transaction.
+
+    If the request method is POST, retrieves user input from the form, performs vend validation,
+    extracts necessary information for PayPal payment, and saves transaction information in the session.
+    Then, creates a PayPal payment and redirects the user to PayPal for payment.
+
+    For GET requests, renders the 'vend_electricity.html' template.
+
+    Returns:
+    - redirect: Redirects to PayPal for payment if the request method is POST.
+    - render_template: Renders the 'vend_electricity.html' template for GET requests.
+    """
+
+    if request.method == 'POST':
+        # Get the user's input from the form
+        customer_account_number = request.form['customer_account_number']
+        usd_amount = float(request.form['usd_amount'])
+        vertical_id = 'paytv'
+
+        # Perform vend validation
+        validate_response = airtime.vend_validate(vertical_id, customer_account_number)
+
+        # Extract necessary information for PayPal payment
+        trx_id = validate_response.get("data", {}).get("trxId", "")
+        delivery_method = validate_response.get("data", {}).get("deliveryMethods", [{}])[0].get("id", "")
+        deliver_to = validate_response.get("data", {}).get("deliverTo", "")
+        callback = validate_response.get("data", {}).get("callback", "")
+
+        # Save necessary information in session for later use in the execute route
+        session['transaction_info'] = {
+            'trx_id': trx_id,
+            'customer_account_number': customer_account_number,
+            'usd_amount': usd_amount,
+            'vertical_id': vertical_id,
+            'delivery_method': delivery_method,
+            'deliver_to': deliver_to,
+            'callback': callback,
+        }
+
+        # Create a PayPal payment and get the redirect URL
+        paypal_redirect_url = paypal_handler.create_payment(usd_amount, customer_account_number, request)
+
+        # Redirect the user to PayPal for payment
+        return redirect(paypal_redirect_url)
+
+    # Render the vend_tv.html template for GET requests
+    return render_template('vend_tv.html')
 
 
 # Execute payment route
