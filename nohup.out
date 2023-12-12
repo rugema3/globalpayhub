@@ -117,3 +117,19 @@ execute_response: {'msg': 'Vend execute could not be processed. Your main wallet
 [2023-12-12 10:52:56 +0200] [156635] [INFO] Listening at: http://127.0.0.1:8000 (156635)
 [2023-12-12 10:52:56 +0200] [156635] [INFO] Using worker: sync
 [2023-12-12 10:52:56 +0200] [156636] [INFO] Booting worker with pid: 156636
+[2023-12-12 12:37:50 +0200] [156636] [INFO] Worker exiting (pid: 156636)
+[2023-12-12 12:37:50 +0200] [158380] [INFO] Booting worker with pid: 158380
+[2023-12-12 12:38:20 +0200] [156635] [INFO] Handling signal: term
+[2023-12-12 12:38:20 +0200] [158380] [INFO] Worker exiting (pid: 158380)
+[2023-12-12 12:38:20 +0200] [156635] [INFO] Shutting down: Master
+[2023-12-12 12:38:39 +0200] [158385] [INFO] Starting gunicorn 21.2.0
+[2023-12-12 12:38:39 +0200] [158385] [INFO] Listening at: http://127.0.0.1:8000 (158385)
+[2023-12-12 12:38:39 +0200] [158385] [INFO] Using worker: sync
+[2023-12-12 12:38:39 +0200] [158386] [INFO] Booting worker with pid: 158386
+[2023-12-12 20:51:58 +0200] [158385] [INFO] Handling signal: term
+[2023-12-12 20:51:58 +0200] [158386] [INFO] Worker exiting (pid: 158386)
+[2023-12-12 20:51:58 +0200] [158385] [INFO] Shutting down: Master
+[2023-12-12 20:52:39 +0200] [163845] [INFO] Starting gunicorn 21.2.0
+[2023-12-12 20:52:39 +0200] [163845] [INFO] Listening at: http://127.0.0.1:8000 (163845)
+[2023-12-12 20:52:39 +0200] [163845] [INFO] Using worker: sync
+[2023-12-12 20:52:39 +0200] [163846] [INFO] Booting worker with pid: 163846

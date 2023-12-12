@@ -1,0 +1,86 @@
+/* Reset some default styles */
+body, h1, h2, p, ul, li, a {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    margin-top: auto; /* Push the footer to the bottom */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-section {
+    width: 30%; /* Adjust the width as needed */
+}
+
+.footer-section h3 {
+    color: #fff;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px;
+}
+
+.footer-section a {
+    text-decoration: none;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: #ffd700; /* Change the color on hover as desired */
+}
+
+.footer-bottom {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Additional Styling for Links in the Footer */
+.footer-bottom a {
+    color: #ffd700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-bottom a:hover {
+    color: #fff;
+}
+
+/* Payment Logos Styles */
+.payment-logos {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.payment-logos img {
+    max-width: 50px; /* Adjust the maximum width of the logos as needed */
+}
+
+/* Additional margin for spacing between logos */
+.payment-logos img:not(:last-child) {
+    margin-right: 10px; /* Adjust the margin (spacing) between logos */
+}
+

@@ -40,6 +40,17 @@ def home():
     """
     return render_template('index2.html')
 
+@app.route('/about')
+def about():
+    """The route for about us page."""
+    return render_template('about.html')
+
+
+@app.route('/services')
+def services():
+    """The route for services page."""
+    return render_template('services.html')
+
 # Initiate transaction route
 @app.route('/vend_airtime', methods=['GET', 'POST'])
 def vend_airtime():

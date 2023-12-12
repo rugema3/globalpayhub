@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/footer.css') }}"> 
+
+</head>
+<body>
+
+    <!-- Footer Content -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+		<p>Remmittance LLC</p>
+                <p>Email: info@globalpayhub.tech</p>
+                <p>Address: 32 N GOULD ST,SHERIDAN, WY 82801</p>
+                <p>Phone: +1 (386) 463-0324</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Use</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect with Us</h3>
+                <ul>
+                    <li><a href="#" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+                    <li><a href="#" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+                    <li><a href="#" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+	<div>
+	<p>Pay With</p>
+	<div class="payment-logos">
+
+        <img src="{{ url_for('static', filename='images/visa.png') }}" alt="Visa Logo">
+        <img src="{{ url_for('static', filename='images/mastercard.png') }}" alt="Mastercard Logo">
+        <img src="{{ url_for('static', filename='images/paypal.jpeg') }}" alt="PayPal Logo">
+        <img src="{{ url_for('static', filename='images/american.jpeg') }}" alt="American Express Logo">
+        <img src="{{ url_for('static', filename='images/discover.png') }}" alt="Discover Logo">
+        <img src="{{ url_for('static', filename='images/jcb.jpeg') }}" alt="JCB Logo">
+    </div>
+	</div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2023 Remmittance LLC. All rights reserved.</p>
+            <p><a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>
+

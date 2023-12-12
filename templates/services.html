@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'header.html' %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/services.css') }}">
+    <title>Our Services</title>
+</head>
+<body>
+    <div class="about-container">
+        <h1>Our Services</h1>
+	<br>
+        <p>Explore the variety of services offered by Global Pay Hub to make your life easier. Whether you're looking to recharge your mobile phone or settle essential bills, we have you covered.</p>
+        <br>
+        <div class="service">
+            <h2>Airtime Recharge</h2>
+            <p>Top up your mobile phone with airtime credits instantly using our secure and convenient platform.</p>
+        </div>
+        <br>
+        <div class="service">
+            <h2>Utility Bill Payments</h2>
+            <p>Pay your electricity, water, and other utility bills hassle-free from anywhere in the world.</p>
+        </div>
+        <br>
+        <div class="service">
+            <h2>Tax Payment</h2>
+            <p>We assist individuals from the Rwandan diaspora in paying their taxes online using our reliable services.</p>
+        </div>
+        <br>
+        <div class="service">
+            <h2>TV Subscription (Startimes)</h2>
+            <p>Subscribe to Startimes TV effortlessly through Global Pay Hub and enjoy a variety of channels and programs.</p>
+        </div>
+        <br>
+        <div class="service">
+            <h2>Other Bills</h2>
+            <p>Handle various bills such as taxes, TV subscriptions, and more with ease through Global Pay Hub.</p>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+</body>
+</html>
+

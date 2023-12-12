@@ -1,0 +1,63 @@
+/* Reset some default styles */
+body, h1, h2, p, ul, li, a {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Form Styles */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Arrange label and input fields horizontally */
+label, input {
+    display: inline-block;
+    width: calc(100% - 5px); /* Adjust the width and spacing as needed */
+    margin-right: 10px;
+}
+
+/* Clear the margin for the second element in each pair */
+label:nth-child(even), input:nth-child(even) {
+    margin-right: 0;
+}
+
+button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+/* Footer Styles (if needed) */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    margin-top: auto;
+}
+input {
+    padding: 10px;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
