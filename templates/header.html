@@ -8,12 +8,18 @@
 
 <body>
 
+    <!-- User Actions Section -->
+    <div class="user-actions">
+	   <!-- <img src="{{ url_for('static', filename='images/globalpayhub.png') }}" alt="Global Pay Hub Logo" class="logo-image"> -->
+         <button class="action-button"><a href="/register">Sign Up</a></button>
+         <button class="action-button"><a href="/login">Login</a></button>
+    </div>
+
     <!-- Header Section -->
     <header>
         <div class="logo">
             <!-- Replace 'your-logo.png' with the path to your logo image -->
             <img src="{{ url_for('static', filename='images/globalpayhub.png') }}" alt="Global Pay Hub Logo">
-
         </div>
         <nav>
             <ul>
@@ -27,4 +33,3 @@
 
 </body>
 </html>
-

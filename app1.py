@@ -66,6 +66,11 @@ def contact():
     api_key = os.environ.get('google_api')
     return render_template('contact.html', api_key=api_key)
 
+@app.route('/terms')
+def terms():
+    """The route for terms and conditions page."""
+    return render_template('terms_and_conditions.html')
+
 
 # Initiate transaction route
 @app.route('/vend_airtime', methods=['GET', 'POST'])

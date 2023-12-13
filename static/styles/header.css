@@ -22,6 +22,7 @@ header {
     max-width: 100%;
     max-height: 50px;
     height: auto;
+    background-color: white;
 }
 
 nav ul {
@@ -35,4 +36,46 @@ nav a {
     margin: 0 15px;
 }
 
+/* header.css */
 
+/* User Actions Styles */
+.user-actions {
+    text-align: right;
+    padding: 10px;
+    background-color: white;
+    color:  #007BFF;
+    float: right;
+    margin-top: 20px;
+}
+
+.user-actions a {
+    color: white;
+    margin-left: 10px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+/* Style the action buttons */
+.action-button {
+    background-color: #007BFF; /* Blue color for the buttons */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-left: 10px;
+    text-decoration: none;
+}
+
+/* Change button color on hover */
+.action-button:hover {
+    background-color: #0056b3;
+}
+/* Style the logo image */
+.logo-image {
+    width: 80px; /* Adjust the width to your preference */
+    margin-right: 100%; /* Add some margin between the logo and buttons */
+    margin-top: 0px;
+    margin-bottom: 0px;
+}

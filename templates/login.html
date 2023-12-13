@@ -3,6 +3,9 @@
 <html>
 <head>
     <title>User Login</title>
+    {% include 'header.html' %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/register.css') }}">
+
 </head>
 <body>
     <h1>User Login</h1>
@@ -26,6 +29,7 @@
 
         <input type="submit" value="Login">
     </form>
+    {% include 'footer.html' %}
 </body>
 </html>
 

@@ -147,3 +147,6 @@ execute_response: {'msg': 'Vend execute could not be processed. Your main wallet
 [2023-12-13 08:28:02 +0200] [173979] [INFO] Listening at: http://127.0.0.1:8000 (173979)
 [2023-12-13 08:28:02 +0200] [173979] [INFO] Using worker: sync
 [2023-12-13 08:28:02 +0200] [173980] [INFO] Booting worker with pid: 173980
+[2023-12-13 12:49:30 +0200] [173979] [INFO] Handling signal: term
+[2023-12-13 12:49:30 +0200] [173980] [INFO] Worker exiting (pid: 173980)
+[2023-12-13 12:49:30 +0200] [173979] [INFO] Shutting down: Master
