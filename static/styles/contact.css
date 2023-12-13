@@ -1,0 +1,46 @@
+/* contact.css */
+
+body {
+	background-color: #f4f4f4;
+}
+/* Map Styles */
+#map {
+    height: 400px;
+    width: 60%;
+    margin-right: 20px;
+    float: left;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Contact Information Styles */
+.contact-info {
+    width: 35%;
+    float: left;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Style individual contact details */
+.contact-info p {
+    margin-bottom: 15px;
+}
+
+/* Clear the float to ensure the container expands to contain both elements */
+#content:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+/* Style clickable links */
+.contact-info a {
+    color: #007bff; /* Set link color to a blue shade */
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline; /* Add underline on hover for better feedback */
+}

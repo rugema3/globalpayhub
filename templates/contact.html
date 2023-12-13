@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <!-- Add any additional head elements if needed -->
+
+    <!-- Include the header CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/header.css') }}">
+    <!-- Include the contact page CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/contact.css') }}">
+</head>
+<body>
+    <!-- Include the header -->
+    {% include 'header.html' %}
+
+    <!-- Your Contact Page Content Goes Here -->
+    <div class="contact-container">
+        <div id="map"></div>
+        <div class="contact-info">
+		<h2>Contact Information</h2><br>
+            <p><strong>Address:</strong> 32 South Gould Street, Sheridan, WY 82801, USA</p>
+      <p><strong>Email:</strong> <a href="mailto:info@globalpayhub.tech">info@globalpayhub.tech</a></p>
+      <p><strong>Phone:</strong> <a href="tel:+13864630324">+1 (386) 463-0324</a></p>
+        </div>
+    </div>
+
+    <!-- Include the footer -->
+    {% include 'footer.html' %}
+
+    <!-- Add any additional scripts for the map, if necessary -->
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap" async defer></script>
+    <script>
+        function initMap() {
+            var myLatLng = {lat: 44.796950, lng: -106.954650}; 
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: myLatLng
+            });
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Our Location'
+            });
+        }
+    </script>
+</body>
+</html>
+

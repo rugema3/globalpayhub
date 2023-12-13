@@ -51,6 +51,13 @@ def services():
     """The route for services page."""
     return render_template('services.html')
 
+@app.route('/contact')
+def contact():
+    """The route for contact page."""
+    api_key = os.environ.get('google_api')
+    return render_template('contact.html', api_key=api_key)
+
+
 # Initiate transaction route
 @app.route('/vend_airtime', methods=['GET', 'POST'])
 def vend_airtime():
