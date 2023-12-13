@@ -140,3 +140,10 @@ execute_response: {'msg': 'Vend execute could not be processed. Your main wallet
 [2023-12-12 21:46:05 +0200] [164470] [INFO] Listening at: http://127.0.0.1:8000 (164470)
 [2023-12-12 21:46:05 +0200] [164470] [INFO] Using worker: sync
 [2023-12-12 21:46:05 +0200] [164471] [INFO] Booting worker with pid: 164471
+[2023-12-13 08:27:44 +0200] [164470] [INFO] Handling signal: term
+[2023-12-13 08:27:44 +0200] [164471] [INFO] Worker exiting (pid: 164471)
+[2023-12-13 08:27:45 +0200] [164470] [INFO] Shutting down: Master
+[2023-12-13 08:28:02 +0200] [173979] [INFO] Starting gunicorn 21.2.0
+[2023-12-13 08:28:02 +0200] [173979] [INFO] Listening at: http://127.0.0.1:8000 (173979)
+[2023-12-13 08:28:02 +0200] [173979] [INFO] Using worker: sync
+[2023-12-13 08:28:02 +0200] [173980] [INFO] Booting worker with pid: 173980
