@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Customer Registration</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/register.css') }}">
+    {% include 'header.html' %}
 </head>
 <body>
     <h1>Customer Registration</h1>
@@ -33,6 +35,7 @@
         
         <input type="submit" value="Register">
     </form>
+    {% include 'footer.html' %}
 </body>
 </html>
 

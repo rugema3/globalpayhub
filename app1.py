@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session
 from service_vendor import ServiceVendor
 from paypal_handler import PayPalHandler
 from credentials import PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET
 import secrets
 import os
 from dotenv import load_dotenv
+from registration import RegistrationManager
+from db_handler import Database
 
 # Load environment variables from .env
 load_dotenv()
@@ -28,6 +30,13 @@ vertical_id = "airtime"
 # Create instances of ServiceVendor and PayPalHandler
 airtime = ServiceVendor(base_url, api_key=api_key, api_secret=api_secret)
 paypal_handler = PayPalHandler(PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET)
+
+
+# Initialize the database connection
+db = Database()
+
+# Create an instance of RegistrationManager with app and db
+registration_manager = RegistrationManager(app)
 
 # Home route
 @app.route('/')
@@ -259,6 +268,65 @@ def execute_payment():
     else:
         # Handle payment execution failure
         return render_template('error.html', error_message=error_message)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    """Handle user registration requests."""
+    if request.method == 'POST':
+        # Get user registration data from the form
+        first_name = request.form['firstname']
+        last_name = request.form['lastname']
+        email = request.form['email']
+        phone = request.form['phone']
+        password = request.form['password']
+
+        # Use the RegistrationManager to register the user
+        registration_manager = RegistrationManager(app)  # Pass your Flask app and db object
+        result = registration_manager.register_user(first_name, last_name, email, phone, password)
+
+        if result == "Registration successful!":
+            flash('Registration successful.', 'success')
+        else:
+            flash('Registration failed. Please try again.', 'danger')
+
+        # Close the database connection
+        registration_manager.close_database_connection()
+
+    return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Handle user login requests."""
+    if request.method == 'POST':
+        # Get user login data from the form
+        email = request.form['email']
+        password = request.form['password']
+
+        # Print the email and password to check if they are received correctly
+        print(f"Received email: {email}")
+        print(f"Received password: {password}")
+
+        # Use the RegistrationManager to authenticate the user
+        registration_manager = RegistrationManager(app)
+        
+        # Print messages for debugging
+        print("Before login attempt")
+
+        result = registration_manager.login_user(email, password)
+
+        # Print messages for debugging
+        print(f"Login result: {result}")
+
+        if result == "Login successful!":
+            flash('Login successful. Welcome!', 'success')
+            # Add your logic to redirect to the user's profile or dashboard
+        else:
+            flash('Login failed. Please check your email and password.', 'danger')
+
+        # Close the database connection
+        registration_manager.close_database_connection()
+
+    return render_template('login.html')
 
 
 if __name__ == '__main__':
