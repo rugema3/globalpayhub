@@ -1,42 +1,20 @@
-<!-- transaction_details.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transaction Details</title>
 </head>
 <body>
     <h1>Transaction Details</h1>
-    
-    <p><strong>Transaction ID:</strong> {{ transaction_info.trx_id }}</p>
-    <p><strong>Customer Account Number:</strong> {{ transaction_info.customer_account_number }}</p>
-    <p><strong>USD Amount:</strong> ${{ transaction_info.usd_amount }}</p>
-    <p><strong>Vertical ID:</strong> {{ transaction_info.vertical_id }}</p>
-    <p><strong>Delivery Method:</strong> {{ transaction_info.delivery_method }}</p>
-    <p><strong>Deliver To:</strong> {{ transaction_info.deliver_to }}</p>
-    <p><strong>Callback:</strong> {{ transaction_info.callback }}</p>
 
+    <p>Customer Account Number: {{ transaction_info.customer_account_number }}</p>
+    <p>USD Amount: {{ transaction_info.usd_amount }}</p>
+    <p>Vertical ID: {{ transaction_info.vertical_id }}</p>
     <!-- Add more details as needed -->
 
-    <h2>Execute Response</h2>
-    <!-- Display execute response details -->
-    {% if execute_response %}
-        <p><strong>Status:</strong> {{ execute_response.status }}</p>
-        <!-- Add more details as needed -->
-    {% else %}
-        <p>No execute response available</p>
-    {% endif %}
-
-    <!-- Add a form for user confirmation and PayPal payment execution -->
-    <form action="/confirm_and_execute_payment" method="post">
-        <button type="submit">Confirm and Proceed to PayPal</button>
+    <form method="post" action="/complete_transaction">
+        <button type="submit">Proceed to PayPal</button>
     </form>
-    <form action="/confirm_payment" method="post">
-    <button type="submit">Confirm and Proceed to PayPal</button>
-</form>
 </body>
 </html>
-
