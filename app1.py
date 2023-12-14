@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 from flask import Flask, render_template, request, flash, redirect, url_for, session
-from service_vendor import ServiceVendor
+from application.models.service_vendor import ServiceVendor
 from paypal_handler import PayPalHandler
 from credentials import PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET
 import secrets
 import os
 from dotenv import load_dotenv
-from registration import RegistrationManager
+from application.models.registration import RegistrationManager
 from db_handler import Database
 
 # Load environment variables from .env

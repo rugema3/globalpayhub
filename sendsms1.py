@@ -2,6 +2,13 @@ import requests
 from credentials import credentials, sms_url
 
 def send_sms(recipient_number, message, sender):
+    """Send sms to phone number.
+
+    args:
+            recepient_number:  The receipient phone number.
+            message:           The message to be sent.
+            sender:             The name of the sender
+            """
     url = sms_url
 
     # Read the username and password from the credentials dictionary
@@ -22,10 +29,3 @@ def send_sms(recipient_number, message, sender):
     else:
         print("Request failed with status code:", response.status_code)
     
-# Usage example:
-#recipient_number = input("Enter the recipient number(s) (comma-separated): ")
-#message = input("Enter the message: ")
-#sender = input("Enter the sender: ")
-
-#send_sms(recipient_number, message, sender)
-
