@@ -2,22 +2,25 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 
+
 class Database:
     """
     A class for handling database operations using MariaDB.
     """
+
     def __init__(self):
         """
         Initialize the database connection using configuration from .env file.
         """
-        load_dotenv() # load the environment variables
+        load_dotenv()  # load the environment variables
         host = os.getenv('DB_HOST')
-        user =os.getenv('DB_USER')
+        user = os.getenv('DB_USER')
         password = os.getenv('DB_PASSWORD')
         database = os.getenv('DB_NAME')
 
         if not (host and user and password and database):
-            raise ValueError("Database configuration not found in the .env file.")
+            raise ValueError(
+                "Database configuration not found in the .env file.")
 
         self.conn = mysql.connector.connect(
             host=host,
@@ -81,7 +84,6 @@ class Database:
             self.conn.rollback()
             return None
 
-
     def fetch_all(self, query, params=None):
         """
         Execute a SQL query and fetch all rows.
@@ -115,13 +117,13 @@ class Database:
         else:
             return None
 
-
     def update_user_password(self, user_id, new_password):
         """
         Update the user's password in the database.
 
         Args:
-            user_id (int): The ID of the user whose password needs to be updated.
+            user_id (int): The ID of the user whose password needs to be
+                            updated.
             new_password (str): The new password for the user.
 
         Returns:
@@ -131,7 +133,3 @@ class Database:
         params = (new_password, user_id)
 
         return self.execute_query(query, params)
-
-
-
-
