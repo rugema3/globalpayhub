@@ -8,6 +8,7 @@ import os
 from dotenv import load_dotenv
 from application.models.registration import RegistrationManager
 from db_handler import Database
+from application.routes.account_recovery import password_reset_bp
 
 # Load environment variables from .env
 load_dotenv()
@@ -20,6 +21,8 @@ if not PAYPAL_CLIENT_ID or not PAYPAL_CLIENT_SECRET:
 
 app = Flask(__name__, static_url_path='/static', static_folder='static')
 app.secret_key = secrets.token_hex(32)  # Generate a random secret key
+
+app.register_blueprint(password_reset_bp)
 
 base_url = os.getenv("AIRTIME_BASE_URL")
 api_key = os.getenv("api_key")

@@ -69,3 +69,15 @@ input[type="submit"]:hover {
 .flashes li {
     margin-bottom: 5px;
 }
+.forgot-password-link {
+    color: #007BFF;  /* Set the desired color for the link */
+    text-decoration: none;  /* Remove underline */
+    font-weight: bold;  /* Make the text bold if you prefer */
+    margin-top: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;  /* Underline the link on hover */
+}

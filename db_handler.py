@@ -96,5 +96,42 @@ class Database:
         self.execute_query(query, params)
         return self.cursor.fetchall()
 
+    def find_user_by_email(self, email):
+        """
+        Find a user in the database by their email address.
+
+        Args:
+            email (str): The email address of the user to search for.
+
+        Returns:
+            User: The User object if found, or None if not found.
+        """
+        query = "SELECT * FROM users WHERE email = %s"
+        self.cursor.execute(query, (email,))
+        user_data = self.cursor.fetchone()
+
+        if user_data:
+            return user_data
+        else:
+            return None
+
+
+    def update_user_password(self, user_id, new_password):
+        """
+        Update the user's password in the database.
+
+        Args:
+            user_id (int): The ID of the user whose password needs to be updated.
+            new_password (str): The new password for the user.
+
+        Returns:
+            bool: True if the update was successful, False otherwise.
+        """
+        query = "UPDATE users SET password = %s WHERE id = %s"
+        params = (new_password, user_id)
+
+        return self.execute_query(query, params)
+
+
 
 

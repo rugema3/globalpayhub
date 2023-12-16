@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Login</title>
+    <title>Login</title>
     {% include 'header.html' %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/register.css') }}">
 
 </head>
 <body>
-    <h1>User Login</h1>
+    <h1>Login</h1>
     
     {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -26,9 +26,18 @@
 
         <label for="password">Password:</label>
         <input type="password" name="password" required><br><br>
+	<p>
+	<a href='/forgot_password' class="forgot-password-link">Forgot Password?</a>
+	</p><br>
 
-        <input type="submit" value="Login">
+
+	<input type="submit" value="Login"><br><br>
+            <p>
+            <a href='/register' class="forgot-password-link">No Account? Create Account</a>
+           </p>
+
     </form>
+    
     {% include 'footer.html' %}
 </body>
 </html>
