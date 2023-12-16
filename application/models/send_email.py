@@ -9,6 +9,7 @@ load_dotenv()
 # Configure logging
 logging.basicConfig(level=logging.INFO)  # Set the logging level to INFO
 
+
 def send_email(api_key, sender_email, recipient_email, subject, message):
     """
     Send an email using the SendGrid API.
@@ -41,12 +42,13 @@ def send_email(api_key, sender_email, recipient_email, subject, message):
     except Exception as e:
         logging.error(f'Error: {str(e)}')
 
+
 if __name__ == '__main__':
     # Example usage
     api_key = os.getenv('email_api')
     sender_email = 'info@remmittance.com'
     recipient_email = 'rugema61@gmail.com'
     subject = 'Testing'
-    message = '<p>Now reset password can be done with no issues. I am very happy</p>'
+    message = '<p>Now reset Sucess</p>'
 
     send_email(api_key, sender_email, recipient_email, subject, message)
