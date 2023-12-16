@@ -187,3 +187,19 @@ execute_response: {'msg': 'Vend execute could not be processed. Your main wallet
 [2023-12-15 16:40:47 +0200] [216105] [INFO] Listening at: http://127.0.0.1:8000 (216105)
 [2023-12-15 16:40:47 +0200] [216105] [INFO] Using worker: sync
 [2023-12-15 16:40:47 +0200] [216106] [INFO] Booting worker with pid: 216106
+[2023-12-16 14:50:17 +0200] [216105] [INFO] Handling signal: term
+[2023-12-16 14:50:17 +0200] [216106] [INFO] Worker exiting (pid: 216106)
+trx_id: 6dcdb089-e500-45c8-b2e6-dc75a3c5ab6e
+delivery_method: direct_topup
+execute_response: {'msg': 'Vend execute could not be processed. Your main wallet has insufficient balance'}
+trx_id: 0a677f53-58c6-4f83-81f5-54f0724f8281
+delivery_method: direct_topup
+execute_response: {'msg': 'Vend execute could not be processed. Your main wallet has insufficient balance'}
+trx_id: e6bd4a74-405b-4236-a148-f76ac390e095
+delivery_method: direct_topup
+execute_response: {'msg': 'Vend execute could not be processed. Your main wallet has insufficient balance'}
+[2023-12-16 14:50:17 +0200] [216105] [INFO] Shutting down: Master
+[2023-12-16 14:51:17 +0200] [232279] [INFO] Starting gunicorn 21.2.0
+[2023-12-16 14:51:17 +0200] [232279] [INFO] Listening at: http://127.0.0.1:8000 (232279)
+[2023-12-16 14:51:17 +0200] [232279] [INFO] Using worker: sync
+[2023-12-16 14:51:17 +0200] [232280] [INFO] Booting worker with pid: 232280

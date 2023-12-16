@@ -1,2 +1,7 @@
 credentials.py
 *.env
+*.log
+*.out
+*.sh
+gunicorn_config.py
+
