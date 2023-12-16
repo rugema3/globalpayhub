@@ -1,6 +1,7 @@
 import requests
 from credentials import credentials, sms_url
 
+
 def send_sms(recipient_number, message, sender):
     """Send sms to phone number.
 
@@ -16,10 +17,10 @@ def send_sms(recipient_number, message, sender):
     password = credentials["password"]
 
     data = {
-            "recipients": recipient_number,
-            "message": message,
-            "sender": sender
-            }
+        "recipients": recipient_number,
+        "message": message,
+        "sender": sender
+    }
     # Make a POST request to the API with the data and authentication included
     response = requests.post(url, data=data, auth=(username, password))
     # Process the response as needed
@@ -28,4 +29,3 @@ def send_sms(recipient_number, message, sender):
         print(data)
     else:
         print("Request failed with status code:", response.status_code)
-    
