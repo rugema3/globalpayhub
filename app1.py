@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from application.models.registration import RegistrationManager
 from db_handler import Database
 from application.routes.account_recovery import password_reset_bp
-
+from application.decorators.login_decorator import login_required
 # Load environment variables from .env
 load_dotenv()
 
@@ -81,9 +81,6 @@ def contact():
 def terms():
     """The route for terms and conditions page."""
     return render_template('terms_and_conditions.html')
-
-# Initiate transaction route
-
 
 @app.route('/vend_airtime', methods=['GET', 'POST'])
 def vend_airtime():
@@ -272,6 +269,7 @@ def pay_tv():
 
 
 @app.route('/complete_transaction', methods=['POST'])
+#@login_required
 def complete_transaction():
     """
     Handle the completion of a transaction.
@@ -390,6 +388,8 @@ def register():
     return render_template('register.html')
 
 
+from flask import redirect, url_for, request
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """Handle user login requests."""
@@ -398,33 +398,26 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-        # Print the email and password to check if they are received correctly
-        print(f"Received email: {email}")
-        print(f"Received password: {password}")
-
         # Use the RegistrationManager to authenticate the user
         registration_manager = RegistrationManager(app)
-
-        # Print messages for debugging
-        print("Before login attempt")
-
         result = registration_manager.login_user(email, password)
-
-        # Print messages for debugging
-        print(f"Login result: {result}")
 
         if result == "Login successful!":
             flash('Login successful. Welcome!', 'success')
-            # Add your logic to redirect to the user's profile or dashboard
+
+            # Redirect the user back to the original page or a default page
+            next_url = request.args.get('next') or url_for('home')
+            print(f"Redirecting to: {next_url}") # check the redirection url
+            return redirect(next_url)
+
         else:
-            flash('Login failed. Please check your email and password.',
-                  'danger'
-                  )
+            flash('Login failed. Please check your email and password.', 'danger')
 
         # Close the database connection
         registration_manager.close_database_connection()
 
     return render_template('login.html')
+
 
 
 if __name__ == '__main__':

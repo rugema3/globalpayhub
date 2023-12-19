@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Customer Registration</title>
+    <title>Signup</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/register.css') }}">
     {% include 'header.html' %}
 </head>
 <body>
-    <h1>Customer Registration</h1>
+    
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul class="flashes">
@@ -16,8 +16,10 @@
         </ul>
       {% endif %}
     {% endwith %}
-
+    <br><br>
+    <h1>Create account</h1>
     <form method="POST" action="/register">
+	    
         <label for="first_name">First Name:</label>
         <input type="text" name="firstname" required><br><br>
         
@@ -34,7 +36,7 @@
         <input type="password" name="password" required><br><br>
         
 	<input type="submit" value="Register"><br><br>
-	<p><a href='/login'>Already have account? Login here</a></p><br>
+	<p><a href='/login' class="forgot-password-link">Already have account? Login here</a></p><br>
     </form>
     {% include 'footer.html' %}
 </body>

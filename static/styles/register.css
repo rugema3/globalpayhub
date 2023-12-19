@@ -1,16 +1,17 @@
 /* Apply some basic styling to the form */
 form {
     width: 50%; /* Adjust the width as needed */
-    max-width: 400px; /* Set a max-width to limit the form size */
+    max-width: 30%; /* Set a max-width to limit the form size */
     margin: 0 auto;
+    align-items: center;
     padding: 20px;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
     margin-bottom: 20px;
-}
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
 
 /* Style the form headings */
 h1 {
@@ -24,18 +25,22 @@ label {
     margin-bottom: 5px;
     font-weight: bold;
     color: #555;
+    
 }
 
 /* Style input fields */
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-    width: 80%;
-    padding: 20px;
+    width: 95%;
+    padding: 10px;
+    #padding-right: 5%;
     margin-bottom: 15px;
+    left: 30%;
     border: 1px solid #ccc;
-    border-radius: 20px;
+    border-radius: 5px;
     font-size: 16px;
+    
 }
 
 /* Style the submit button */
@@ -47,11 +52,18 @@ input[type="submit"] {
     cursor: pointer;
     border-radius: 5px;
     font-size: 18px;
+    width: 200px;
+    margin-top:0.5%;
+  position: absolute;
+  -ms-transform: translateY(-60%);
+  margin-left: 7.5%;
+  transform: translateY(-50%);
 }
 
 /* Change button color on hover */
 input[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: black;
+
 }
 
 /* Style flash messages */
@@ -70,12 +82,14 @@ input[type="submit"]:hover {
     margin-bottom: 5px;
 }
 .forgot-password-link {
-    color: #007BFF;  /* Set the desired color for the link */
+    color: DodgeBlue;  /* Set the desired color for the link */
     text-decoration: none;  /* Remove underline */
     font-weight: bold;  /* Make the text bold if you prefer */
     margin-top: 10px;
     text-align: center;
     margin-bottom: 10px;
+    font-family:Verdana;
+    
 }
 
 .forgot-password-link:hover {

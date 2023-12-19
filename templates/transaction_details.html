@@ -4,17 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transaction Details</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/register.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/transactions.css') }}">
+{% include 'header.html' %}
+
 </head>
 <body>
+	<br><br>
     <h1>Transaction Details</h1>
 
-    <p>Customer Account Number: {{ transaction_info.customer_account_number }}</p>
-    <p>USD Amount: {{ transaction_info.usd_amount }}</p>
-    <p>Vertical ID: {{ transaction_info.vertical_id }}</p>
-    <!-- Add more details as needed -->
+    <form method="post" action="/complete_transaction"style="height:50%">
 
-    <form method="post" action="/complete_transaction">
-        <button type="submit">Proceed to PayPal</button>
+<table id="customers">
+  <tr>
+    <th>Account Number</th>
+    <th>SD Amount</th>
+    <th>Code</th>
+  </tr>
+  <tr>
+    <td>{{ transaction_info.customer_account_number }}</td>
+    <td> {{ transaction_info.usd_amount }}</td>
+    <td>{{ transaction_info.vertical_id }}</td>
+  </tr>
+
+  <tr>
+    
+    <td rowspan="10"><input type="submit" value="Proceed to PayPal"></td>
+  </tr>
+  
+
+</table>
+
+<!-- <input type="submit" value="Proceed to PayPal"> -->
     </form>
+    <br><br>
+
+    {% include 'footer.html' %}
 </body>
 </html>
