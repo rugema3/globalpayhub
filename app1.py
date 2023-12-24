@@ -73,7 +73,7 @@ def services():
 @app.route('/contact')
 def contact():
     """The route for contact page."""
-    api_key = os.environ.get('google_api')
+    api_key = os.environ.get('maps_api')
     return render_template('contact.html', api_key=api_key)
 
 
