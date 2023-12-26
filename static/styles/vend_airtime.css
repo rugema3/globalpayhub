@@ -21,18 +21,33 @@ form {
     flex-direction: column;
 }
 
-/* Arrange label and input fields horizontally */
-label, input {
-    display: inline-block;
-    width: calc(100% - 5px); /* Adjust the width and spacing as needed */
-    margin-right: 10px;
+/* Form Group Styles */
+.form-group {
+    margin-bottom: 20px;
 }
 
-/* Clear the margin for the second element in each pair */
-label:nth-child(even), input:nth-child(even) {
-    margin-right: 0;
+/* Label Styles */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
+/* Input Styles */
+input,
+select {
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Select Styles */
+select {
+    cursor: pointer; /* Show pointer cursor on hover */
+}
+
+/* Button Styles */
 button {
     background-color: #333;
     color: #fff;
@@ -54,10 +69,88 @@ footer {
     padding: 20px;
     margin-top: auto;
 }
-input {
-    padding: 10px;
-    margin-bottom: 25px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+
+/* Form Group Styles */
+.form-group {
+    margin-bottom: 20px;
 }
+
+/* Amount Container Styles */
+.amount-container {
+    display: flex;
+    flex-wrap: wrap; /* Wrap the amount boxes */
+    justify-content: space-between;
+}
+
+/* Amount Box Styles */
+.amount-box {
+     background-color: #3498db;
+	border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    width: calc(48% - 10px); /* Adjust the width and spacing as needed */
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 10px; /* Add margin to separate boxes */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+/* Style for the selected amount box */
+.amount-box input:checked + label {
+    background-color: #555;
+    color: #fff;
+}
+
+/* Color variations for amount boxes */
+.amount-box.amount-5 {
+    background-color: #3498db; /* Blue */
+}
+
+.amount-box.amount-6 {
+    background-color: #e74c3c; /* Red */
+}
+
+.amount-box.amount-8 {
+    background-color: #2ecc71; /* Green */
+}
+
+.amount-box.amount-10 {
+    background-color: #f39c12; /* Yellow */
+}
+
+.amount-box.amount-12 {
+    background-color: #9b59b6; /* Purple */
+}
+
+.amount-box.amount-15 {
+    background-color: #34495e; /* Dark Blue */
+}
+
+.amount-box.amount-17 {
+    background-color: #16a085; /* Teal */
+}
+
+.amount-box.amount-20 {
+    background-color: #d35400; /* Orange */
+}
+
+.amount-box.amount-30 {
+    background-color: #c0392b; /* Dark Red */
+}
+
+/* Local Currency Styles */
+.local-currency {
+    display: block;
+    margin-top: 5px;
+    border-top: 2px solid #3498db; /* Blue color for the separation line */
+    padding-top: 5px;
+}
+
+/* Hover effect on amount boxes */
+.amount-box:hover {
+    background-color: #555;
+    color: #fff;
+}
+

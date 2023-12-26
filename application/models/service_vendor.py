@@ -123,6 +123,94 @@ class ServiceVendor:
         return self.perform_authenticated_request(
             url, method="POST", data=data)
 
+    def calculate_transaction_fee(self, usd_amount, fee_percentage=3.49, fixed_fee=0.49):
+        """
+        Calculate the transaction fee based on the PayPal fee structure.
+
+        Args:
+            usd_amount (float): The original USD amount.
+            fee_percentage (float): The PayPal fee percentage.
+            fixed_fee (float): The fixed PayPal fee.
+
+        Returns:
+            float: The calculated transaction fee.
+        """
+        fee_percentage /= 100.0
+        transaction_fee = fee_percentage * usd_amount + fixed_fee
+        return transaction_fee
+
+
+    def calculate_profit_margin(self, usd_amount, minimum_profit=1.0, maximum_profit=3.0):
+        """
+        Calculate the profit margin based on the desired range.
+
+        Args:
+            usd_amount (float): The original USD amount.
+            minimum_profit (float): The minimum profit amount.
+            maximum_profit (float): The maximum profit amount.
+
+        Returns:
+            float: The calculated profit margin.
+        """
+        profit_margin = min(maximum_profit, max(minimum_profit, usd_amount * 0.1))  # 10% profit margin
+        return profit_margin
+
+    def calculate_local_currency_amount(self, usd_amount, exchange_rate=1200.0):
+        """
+        Convert the original USD amount to local currency based on the exchange rate.
+
+        Args:
+            usd_amount (float): The original USD amount.
+            exchange_rate (float): The exchange rate.
+
+        Returns:
+            float: The local currency amount.
+        """
+        local_currency_amount = usd_amount * exchange_rate
+        return local_currency_amount
+
+    def handle_electricity_transaction(self, customer_account_number, usd_amount):
+        """
+        Handle an electricity transaction, including fee and profit calculations.
+
+        Args:
+            customer_account_number (str): The customer's account number.
+            usd_amount (float): The original USD amount.
+
+        Returns:
+            dict: The result of the electricity transaction.
+        """
+        # Perform vend validation and other necessary steps
+        validate_response = self.vend_validate("electricity", customer_account_number)
+        # Extract necessary information for PayPal payment
+        trx_id = validate_response.get("data", {}).get("trxId", "")
+        delivery_method = validate_response.get("data", {}).get("deliveryMethods", [{}])[0].get("id", "")
+        deliver_to = validate_response.get("data", {}).get("deliverTo", "")
+        callback = validate_response.get("data", {}).get("callback", "")
+
+        # Calculate transaction fee and profit margin
+        transaction_fee = self.calculate_transaction_fee(usd_amount)
+        profit_margin = self.calculate_profit_margin(usd_amount)
+
+        # Calculate total amount (USD + transaction fee + profit)
+        total_amount_usd = usd_amount + transaction_fee + profit_margin
+
+        # Calculate local currency amount before fees and profit
+        local_currency_amount_before_fees = self.calculate_local_currency_amount(usd_amount)
+
+        # Perform vend execution with the retrieved information
+        execute_response = self.vend_execute(
+            trx_id, customer_account_number, total_amount_usd,
+            "electricity", delivery_method, deliver_to, callback)
+
+        return {
+            "transaction_fee": transaction_fee,
+            "profit_margin": profit_margin,
+            "local_currency_amount_before_fees": local_currency_amount_before_fees,
+            "execute_response": execute_response
+        }
+
+
 
 if __name__ == "__main__":
     # Replace with your actual values

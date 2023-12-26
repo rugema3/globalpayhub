@@ -9,6 +9,7 @@ import os
 from dotenv import load_dotenv
 from application.models.registration import RegistrationManager
 from db_handler import Database
+from decimal import Decimal
 from application.routes.account_recovery import password_reset_bp
 from application.decorators.login_decorator import login_required
 # Load environment variables from .env
@@ -43,6 +44,9 @@ db = Database()
 
 # Create an instance of RegistrationManager with app and db
 registration_manager = RegistrationManager(app)
+
+# Define the exchange rate from USD to RWF.
+exchange_rate = 1200
 
 # Home route
 
@@ -147,7 +151,6 @@ def vend_airtime():
     # Render the vend-airtime.html template for GET requests
     return render_template('vend_airtime.html')
 
-
 # Vend Electricity route
 @app.route('/vend_electricity', methods=['GET', 'POST'])
 def vend_electricity():
@@ -157,21 +160,23 @@ def vend_electricity():
     If the request method is POST, retrieves user input from the form,
     performs vend validation, extracts necessary information for PayPal
     payment, and saves transaction information in the session.
-    Then, creates a PayPal payment and redirects the user to PayPal 4 payment
+    Then, creates a PayPal payment and redirects the user to PayPal for payment.
 
     For GET requests, renders the 'vend_electricity.html' template.
 
     Returns:
     - redirect: Redirects to PayPal for payment if the request method is POST.
-    - render_template: Renders the 'vend_electricity.html' template for
-        GET requests.
+    - render_template: Renders the 'vend_electricity.html' template for GET requests.
     """
 
     if request.method == 'POST':
         # Get the user's input from the form
         customer_account_number = request.form['customer_account_number']
-        usd_amount = float(request.form['usd_amount'])
+        usd_amount = request.form['usd_amount']
+        local_currency = request.form['local_currency']
+        print(f"The local currency is: {local_currency}")
         vertical_id = 'electricity'
+
 
         # Perform vend validation
         validate_response = airtime.vend_validate(
@@ -187,12 +192,12 @@ def vend_electricity():
         deliver_to = validate_response.get("data", {}).get("deliverTo", "")
         callback = validate_response.get("data", {}).get("callback", "")
 
-        # Save necessary information in session for later use in the execute
-        # route
+        # Save necessary information in session for later use in the execute route
         session['transaction_info'] = {
             'trx_id': trx_id,
             'customer_account_number': customer_account_number,
             'usd_amount': usd_amount,
+            'local_currency': local_currency,
             'vertical_id': vertical_id,
             'delivery_method': delivery_method,
             'deliver_to': deliver_to,
@@ -204,13 +209,15 @@ def vend_electricity():
             'transaction_details.html',
             transaction_info=session['transaction_info'])
 
-    # Render the vend_tv.html template for GET requests
-    return render_template('vend_electricity.html')
+    electric_amounts = [5, 6, 8, 10, 12, 15, 17, 20, 30]
+    print(electric_amounts)
+    local_currency = [ amount * exchange_rate for amount in electric_amounts]
+    print(local_currency)
 
-# Pay TV route
+    # Render the vend_electricity.html template for GET requests
+    return render_template('vend_electricity.html', electric_amounts=electric_amounts, local_currency=local_currency)
 
-
-@app.route('/pay_tv_subscription', methods=['GET', 'POST'])
+@app.route('/pay_tv_scription', methods=['GET', 'POST'])
 def pay_tv():
     """
     Handle the initiation of a TV transaction.
@@ -318,6 +325,7 @@ def execute_payment():
     """
     # Retrieve necessary information from session
     transaction_info = session.get('transaction_info')
+    print(transaction_info)
 
     if transaction_info is None:
         return render_template(
@@ -328,6 +336,7 @@ def execute_payment():
     trx_id = transaction_info['trx_id']
     customer_account_number = transaction_info['customer_account_number']
     usd_amount = transaction_info['usd_amount']
+    local_currency = float(transaction_info['local_currency']) 
     vertical_id = transaction_info['vertical_id']
     delivery_method = transaction_info['delivery_method']
     deliver_to = transaction_info['deliver_to']
@@ -345,7 +354,7 @@ def execute_payment():
         execute_response = airtime.vend_execute(
             trx_id,
             customer_account_number,
-            usd_amount,
+            local_currency,
             vertical_id,
             delivery_method,
             deliver_to,

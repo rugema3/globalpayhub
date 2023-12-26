@@ -1,6 +1,7 @@
 import os
 import mysql.connector
 from dotenv import load_dotenv
+from typing import List
 
 
 class Database:
@@ -95,8 +96,15 @@ class Database:
         Returns:
             list: A list of dictionaries representing rows from the result.
         """
-        self.execute_query(query, params)
-        return self.cursor.fetchall()
+        try:
+            self.execute_query(query, params)
+            result = self.cursor.fetchall()
+            print(f"Executed query: {query} with parameters: {params}")
+            return result
+        except Exception as e:
+            print(f"Error executing query: {str(e)}")
+            return []
+
 
     def find_user_by_email(self, email):
         """
@@ -133,3 +141,17 @@ class Database:
         params = (new_password, user_id)
 
         return self.execute_query(query, params)
+
+    def get_electricity_amounts(self):
+        """
+        Retrieve electricity amounts from the database.
+
+        Returns:
+            List[dict]: A list of dictionaries representing electricity amounts.
+        """
+        query = "SELECT * FROM electricamount"
+        try:
+            return self.fetch_all(query)
+        except Exception as e:
+            print(f"Error fetching electricity amounts: {str(e)}")
+            return []
