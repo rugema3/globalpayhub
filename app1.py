@@ -217,7 +217,7 @@ def vend_electricity():
     # Render the vend_electricity.html template for GET requests
     return render_template('vend_electricity.html', electric_amounts=electric_amounts, local_currency=local_currency)
 
-@app.route('/pay_tv_scription', methods=['GET', 'POST'])
+@app.route('/pay_tv_subscription', methods=['GET', 'POST'])
 def pay_tv():
     """
     Handle the initiation of a TV transaction.
