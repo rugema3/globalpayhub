@@ -6,32 +6,51 @@
 
     {% include 'header.html' %}
 
-    <!-- Additional CSS files, if needed -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/vend_airtime.css') }}">
 
-     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/vend_airtime.css') }}">
-
-
-    <title>Pay Tv Subscription</title>
+    <title>Pay TV Subscription</title>
 </head>
 <body>
 
-    <!-- Page Content -->
-    <h1>Pay Tv Subscription</h1>
+    <h1>Pay TV Subscription</h1>
+    
     <form method="post" action="/pay_tv_subscription">
         <label for="customer_account_number">Card Number</label>
         <input type="text" id="customer_account_number" name="customer_account_number" required>
         <br>
 
-        <label for="usd_amount">USD Amount:</label>
-        <input type="number" id="usd_amount" name="usd_amount" step="0.01" required>
-        <br>
+        <div class="form-group">
+            <label>Select TV Amount:</label>
+            <div class="amount-container">
+                {% for i in range(tv_amounts|length) %}
+                    <div class="amount-box" data-local-currency="{{ local_currency[i] }}">
+                        <input type="radio" id="amount{{ i }}" name="usd_amount" value="{{ tv_amounts[i] }}">
+                        <label for="amount{{ i }}">${{ tv_amounts[i] }}</label>
+                        <span class="local-currency">{{ local_currency[i] }} RWF</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
 
-        <button type="submit" class="purchase-button">Pay</button>
-    </form>
+        <!-- Hidden input for local_currency -->
+        <input type="hidden" id="local_currency" name="local_currency" value="">
+        
+        <button type="submit">Pay</button>
+    </form><br><br>
+
+    <script>
+        // Script to update hidden input when an option is selected
+        var radios = document.querySelectorAll('input[name="usd_amount"]');
+        radios.forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                var selectedBox = this.parentElement;
+                var localCurrency = selectedBox.getAttribute('data-local-currency');
+                document.getElementById('local_currency').value = localCurrency;
+            });
+        });
+    </script>
 
     {% include 'footer.html' %}
-
-
 </body>
 </html>
 

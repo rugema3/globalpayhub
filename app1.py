@@ -46,7 +46,7 @@ db = Database()
 registration_manager = RegistrationManager(app)
 
 # Define the exchange rate from USD to RWF.
-exchange_rate = 1200
+exchange_rate = 1150
 
 # Home route
 
@@ -86,70 +86,102 @@ def terms():
     """The route for terms and conditions page."""
     return render_template('terms_and_conditions.html')
 
+@app.route('/privacy')
+def privacy():
+    """The route for privacy policy."""
+    return render_template('privacy_policy.html')
+
 @app.route('/vend_airtime', methods=['GET', 'POST'])
 def vend_airtime():
     """
-    Handle the initiation of an airtime transaction.
+    Handle the initiation of airtime transaction.
 
     If the request method is POST, retrieves user input from the form,
     performs vend validation, extracts necessary information for PayPal
     payment, and saves transaction information in the session.
-    Then, creates a PayPal payment and redirects the user to PayPal 4 payment
+    Then, renders a template showing the transaction details.
 
     For GET requests, renders the 'vend_airtime.html' template.
 
     Returns:
-    - redirect: Redirects to PayPal for payment if the request method is POST.
-    - render_template: Renders the 'vend_airtime.html' template 4 GET requests
-    - render_template: Renders an error template if an exception occurs during
-                        transaction initiation.
+    - render_template: Renders either the transaction details template or
+        the 'vend_airtime.html' template.
     """
+    # Define transaction fees dictionary
+    transaction_fees = {
+        5: 1.79,
+        6: 1.89,
+        8: 1.99,
+        10: 2.19,
+        12: 2.29,
+        15: 2.58,
+        17: 2.77,
+        20: 3.17,
+        30: 3.49,
+    }
 
     if request.method == 'POST':
-        try:
-            # Get the user's input from the form
-            customer_account_number = request.form['customer_account_number']
-            usd_amount = float(request.form['usd_amount'])
-            vertical_id = 'airtime'
+        # Get the user's input from the form
+        customer_account_number = request.form['customer_account_number']
+        usd_amount = float(request.form['usd_amount'])
+        local_currency = request.form['local_currency']
+        print(f"The local currency is: {local_currency}")
 
-            # Perform vend validation
-            validate_response = airtime.vend_validate(
-                vertical_id, customer_account_number)
+        # Extract transaction fee based on the selected amount
+        amount = int(usd_amount)
+        fee = transaction_fees.get(amount, 0.0)
+        total = fee + amount
 
-            # Extract necessary information for PayPal payment
-            trx_id = validate_response.get("data", {}).get("trxId", "")
-            delivery_method = validate_response.get(
-                "data", {}).get(
-                "deliveryMethods", [
-                    {}])[0].get(
+        vertical_id = 'airtime'
+
+        # Perform vend validation
+        validate_response = airtime.vend_validate(
+            vertical_id, customer_account_number)
+
+        # Extract necessary information for PayPal payment
+        trx_id = validate_response.get("data", {}).get("trxId", "")
+        delivery_method = validate_response.get(
+            "data", {}).get(
+            "deliveryMethods", [
+                {}])[0].get(
                 "id", "")
-            deliver_to = validate_response.get("data", {}).get("deliverTo", "")
-            callback = validate_response.get("data", {}).get("callback", "")
+        deliver_to = validate_response.get("data", {}).get("deliverTo", "")
+        callback = validate_response.get("data", {}).get("callback", "")
+        customer_name = validate_response.get("data", {}).get("customerAccountNumber", "")
+        product_name = validate_response.get("data", {}).get("pdtName", "")
 
-            # Save necessary information in session for later use in the
-            # execute route
-            session['transaction_info'] = {
-                'trx_id': trx_id,
-                'customer_account_number': customer_account_number,
-                'usd_amount': usd_amount,
-                'vertical_id': vertical_id,
-                'delivery_method': delivery_method,
-                'deliver_to': deliver_to,
-                'callback': callback,
-            }
 
-            # Create a PayPal payment and get the redirect URL
-            paypal_redirect_url = paypal_handler.create_payment(
-                usd_amount, customer_account_number, request)
-            # Redirect the user to PayPal for payment
-            return redirect(paypal_redirect_url)
+        # Save necessary information in session for later use in the execute
+        # route
+        session['transaction_info'] = {
+            'trx_id': trx_id,
+            'customer_account_number': customer_account_number,
+            'usd_amount': usd_amount,
+            'local_currency': local_currency,
+            'transaction_fee': fee,
+            'total': total,
+            'vertical_id': vertical_id,
+            'delivery_method': delivery_method,
+            'deliver_to': deliver_to,
+            'callback': callback,
+            'customer_name' : customer_name,
+            'product_name' : product_name,
+        }
 
-        except Exception as e:
-            # Print the error for debugging
-            print(f"An error occurred in vend_airtime route: {str(e)}")
+        # Render a template showing the transaction details
+        return render_template(
+            'transaction_details.html',
+            transaction_info=session['transaction_info'])
 
-    # Render the vend-airtime.html template for GET requests
-    return render_template('vend_airtime.html')
+    # Use the dictionary keys for electric_amounts
+    airtime_amounts = list(transaction_fees.keys())
+    fees = list(transaction_fees.values())
+
+    local_currency = [amount * exchange_rate for amount in airtime_amounts]
+
+
+    # Render the vend_tv.html template for GET requests
+    return render_template('vend_airtime.html', airtime_amounts=airtime_amounts, local_currency=local_currency)
 
 # Vend Electricity route
 @app.route('/vend_electricity', methods=['GET', 'POST'])
@@ -169,14 +201,32 @@ def vend_electricity():
     - render_template: Renders the 'vend_electricity.html' template for GET requests.
     """
 
+    # Define transaction fees dictionary
+    transaction_fees = {
+        5: 1.79,
+        6: 1.89,
+        8: 1.99,
+        10: 2.19,
+        12: 2.29,
+        15: 2.58,
+        17: 2.77,
+        20: 3.17,
+        30: 3.49,
+    }
+
     if request.method == 'POST':
         # Get the user's input from the form
         customer_account_number = request.form['customer_account_number']
         usd_amount = request.form['usd_amount']
         local_currency = request.form['local_currency']
         print(f"The local currency is: {local_currency}")
-        vertical_id = 'electricity'
 
+        # Extract transaction fee based on the selected amount
+        amount = int(usd_amount)
+        fee = transaction_fees.get(amount, 0.0)
+        total = fee + amount
+
+        vertical_id = 'electricity'
 
         # Perform vend validation
         validate_response = airtime.vend_validate(
@@ -191,6 +241,8 @@ def vend_electricity():
                 "id", "")
         deliver_to = validate_response.get("data", {}).get("deliverTo", "")
         callback = validate_response.get("data", {}).get("callback", "")
+        customer_name = validate_response.get("data", {}).get("customerAccountNumber", "")
+        product_name = validate_response.get("data", {}).get("pdtName", "")
 
         # Save necessary information in session for later use in the execute route
         session['transaction_info'] = {
@@ -198,10 +250,14 @@ def vend_electricity():
             'customer_account_number': customer_account_number,
             'usd_amount': usd_amount,
             'local_currency': local_currency,
+            'transaction_fee': fee,  
+            'total': total,
             'vertical_id': vertical_id,
             'delivery_method': delivery_method,
             'deliver_to': deliver_to,
             'callback': callback,
+            'customer_name' : customer_name,
+            'product_name' : product_name,
         }
 
         # Render a template showing the transaction details
@@ -209,10 +265,11 @@ def vend_electricity():
             'transaction_details.html',
             transaction_info=session['transaction_info'])
 
-    electric_amounts = [5, 6, 8, 10, 12, 15, 17, 20, 30]
-    print(electric_amounts)
-    local_currency = [ amount * exchange_rate for amount in electric_amounts]
-    print(local_currency)
+    # Use the dictionary keys for electric_amounts
+    electric_amounts = list(transaction_fees.keys())
+    fees = list(transaction_fees.values())
+
+    local_currency = [amount * exchange_rate for amount in electric_amounts]
 
     # Render the vend_electricity.html template for GET requests
     return render_template('vend_electricity.html', electric_amounts=electric_amounts, local_currency=local_currency)
@@ -233,11 +290,31 @@ def pay_tv():
     - render_template: Renders either the transaction details template or
         the 'vend_tv.html' template.
     """
+    # Define transaction fees dictionary
+    transaction_fees = {
+        5: 1.79,
+        6: 1.89,
+        8: 1.99,
+        10: 2.19,
+        12: 2.29,
+        15: 2.58,
+        17: 2.77,
+        20: 3.17,
+        30: 3.49,
+    }
 
     if request.method == 'POST':
         # Get the user's input from the form
         customer_account_number = request.form['customer_account_number']
         usd_amount = float(request.form['usd_amount'])
+        local_currency = request.form['local_currency']
+        print(f"The local currency is: {local_currency}")
+
+        # Extract transaction fee based on the selected amount
+        amount = int(usd_amount)
+        fee = transaction_fees.get(amount, 0.0)
+        total = fee + amount
+
         vertical_id = 'paytv'
 
         # Perform vend validation
@@ -253,6 +330,9 @@ def pay_tv():
                 "id", "")
         deliver_to = validate_response.get("data", {}).get("deliverTo", "")
         callback = validate_response.get("data", {}).get("callback", "")
+        customer_name = validate_response.get("data", {}).get("customerAccountNumber", "")
+        product_name = validate_response.get("data", {}).get("pdtName", "")
+
 
         # Save necessary information in session for later use in the execute
         # route
@@ -260,10 +340,15 @@ def pay_tv():
             'trx_id': trx_id,
             'customer_account_number': customer_account_number,
             'usd_amount': usd_amount,
+            'local_currency': local_currency,
+            'transaction_fee': fee,
+            'total': total,
             'vertical_id': vertical_id,
             'delivery_method': delivery_method,
             'deliver_to': deliver_to,
             'callback': callback,
+            'customer_name' : customer_name,
+            'product_name' : product_name,
         }
 
         # Render a template showing the transaction details
@@ -271,8 +356,109 @@ def pay_tv():
             'transaction_details.html',
             transaction_info=session['transaction_info'])
 
+    # Use the dictionary keys for electric_amounts
+    tv_amounts = list(transaction_fees.keys())
+    fees = list(transaction_fees.values())
+
+    local_currency = [amount * exchange_rate for amount in tv_amounts]
+
+
     # Render the vend_tv.html template for GET requests
-    return render_template('vend_tv.html')
+    return render_template('vend_tv.html', tv_amounts=tv_amounts, local_currency=local_currency)
+
+@app.route('/vend_tax', methods=['GET', 'POST'])
+def vend_tax():
+    """
+    Handle the initiation of tax transaction.
+
+    If the request method is POST, retrieves user input from the form,
+    performs vend validation, extracts necessary information for PayPal
+    payment, and saves transaction information in the session.
+    Then, creates a PayPal payment and redirects the user to PayPal 4 payment
+
+    For GET requests, renders the 'vend_tax.html' template.
+
+    Returns:
+    - redirect: Redirects to PayPal for payment if the request method is POST.
+    - render_template: Renders the 'vend_tax.html' template 4 GET requests
+    - render_template: Renders an error template if an exception occurs during
+                        transaction initiation.
+    """
+
+    if request.method == 'POST':
+        try:
+            # Get the user's input from the form
+            customer_account_number = request.form['customer_account_number']
+
+            vertical_id = 'tax'
+
+            # Perform vend validation
+            validate_response = airtime.vend_validate(
+                vertical_id, customer_account_number)
+            print(f'response: {validate_response}')
+
+            # Extract necessary information for PayPal payment
+            trx_id = validate_response.get("data", {}).get("trxId", "")
+            delivery_method = validate_response.get(
+                "data", {}).get(
+                "deliveryMethods", [
+                    {}])[0].get(
+                "id", "")
+            deliver_to = validate_response.get("data", {}).get("deliverTo", "")
+            callback = validate_response.get("data", {}).get("callback", "")
+            extra_info = validate_response.get("data", {}).get("extraInfo", {})
+            vend_max_amount = validate_response.get("data", {}).get("vendMax", "")
+            usd_amount = round(vend_max_amount / exchange_rate, 2)
+
+            # Calculate the transaction fee. 4% of the taxes to be paid
+            transaction_fee = round(usd_amount * 0.04, 2)
+            print(f'extra_info: {extra_info}')
+            tax_payer = validate_response.get("data", {}).get("customerAccountNumber", "")
+            total = usd_amount + transaction_fee
+            local_currency = vend_max_amount
+            
+            # Extract information from extra_info
+            tax_center = extra_info.get("tax_center", "")
+            dec_date = extra_info.get("dec_date", "")
+            is_full_pay = extra_info.get("is_full_pay", "")
+            tax_type = extra_info.get("tax_type", "")
+            tin = extra_info.get("tin", "")
+
+            # Save necessary information in session for later use in the
+            # execute route
+            session['transaction_info'] = {
+                'trx_id': trx_id,
+                'customer_account_number': customer_account_number,
+                'usd_amount': usd_amount,
+                'vertical_id': vertical_id,
+                'delivery_method': delivery_method,
+                'deliver_to': deliver_to,
+                'callback': callback,
+                'extra_info': extra_info,
+                'transaction_fee': transaction_fee,
+                'vend_max_amount': vend_max_amount,
+                'tin': tin,
+                'tax_type': tax_type,
+                'dec_date': dec_date,
+                'tax_center':tax_center,
+                'tax_payer': tax_payer,
+                'total': total,
+                'local_currency': local_currency
+            }
+            
+
+            # Render a template showing the transaction details
+            return render_template(
+            'transactions.html',
+            transaction_info=session['transaction_info'])
+            print(f'Transaction_info: {transaction_info}')
+
+        except Exception as e:
+            # Print the error for debugging
+            print(f"An error occurred in vend_tax route: {str(e)}")
+    
+    # Render the vend-airtime.html template for GET requests
+    return render_template('vend_tax.html')
 
 
 @app.route('/complete_transaction', methods=['POST'])
@@ -299,7 +485,13 @@ def complete_transaction():
             error_message='Transaction information not found in session.')
 
     # Retrieve additional information as needed for PayPal payment
-    usd_amount = transaction_info['usd_amount']
+    usd_amount = float(transaction_info['usd_amount']) + transaction_info['transaction_fee']
+
+    #transaction_info['transaction_fee']
+    print(usd_amount)
+    print(type(usd_amount))
+    print(transaction_info['transaction_fee'])
+    print(type((transaction_info['transaction_fee'])))
     customer_account_number = transaction_info['customer_account_number']
 
     # Create a PayPal payment and get the redirect URL

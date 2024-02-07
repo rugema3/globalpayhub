@@ -16,7 +16,8 @@ footer {
     background-color: #333;
     color: #fff;
     padding: 20px;
-    margin-top: auto; /* Push the footer to the bottom */
+    margin-top: 10%;
+    /*margin-top: auto;*/ /* Push the footer to the bottom */    
 }
 
 .footer-content {

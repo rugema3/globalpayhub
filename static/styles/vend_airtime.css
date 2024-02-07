@@ -3,9 +3,14 @@ body, h1, h2, p, ul, li, a {
     margin: 0;
     padding: 0;
 }
+/* Center the entire h1 element */
+h1 {
+    text-align: center;
+    margin: 0 auto; /* Adds automatic left and right margin, effectively centering the element */
+}
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
 }
 
@@ -30,9 +35,10 @@ form {
 label {
     font-weight: bold;
     margin-bottom: 5px;
+    display: block;
 }
 
-/* Input Styles */
+/* Input and Select Styles */
 input,
 select {
     padding: 10px;
@@ -40,61 +46,50 @@ select {
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-/* Select Styles */
-select {
-    cursor: pointer; /* Show pointer cursor on hover */
+    margin-bottom: 10px;
 }
 
 /* Button Styles */
-button {
-    background-color: #333;
+body button {
+    background-color: #007BFF;
     color: #fff;
-    padding: 10px 20px;
+    padding: 16px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin: 0 auto;
+    padding: 15px;
+        background-color: #333;
+	
+
 }
 
 button:hover {
-    background-color: #555;
-}
-
-/* Footer Styles (if needed) */
-footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    margin-top: auto;
-}
-
-/* Form Group Styles */
-.form-group {
-    margin-bottom: 20px;
+     opacity: 0.6;
 }
 
 /* Amount Container Styles */
 .amount-container {
     display: flex;
-    flex-wrap: wrap; /* Wrap the amount boxes */
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 
 /* Amount Box Styles */
 .amount-box {
-     background-color: #3498db;
-	border: 1px solid #ccc;
+    /*  background-color: #333; */
+    border: 1px solid black;
+    color: black;
     border-radius: 5px;
-    padding: 10px;
+    padding: 5px;
     box-sizing: border-box;
-    width: calc(48% - 10px); /* Adjust the width and spacing as needed */
+    width: calc(30% - 7px); /* Adjust the width for three boxes per row */
     text-align: center;
     position: relative;
     cursor: pointer;
-    margin-bottom: 10px; /* Add margin to separate boxes */
-    transition: background-color 0.3s ease; /* Smooth transition on hover */
+    margin-bottom: 8px;
+    transition: background-color 0.3s ease;
 }
 
 /* Style for the selected amount box */
@@ -102,55 +97,39 @@ footer {
     background-color: #555;
     color: #fff;
 }
+.amount-box input:checked {
+	background-color: black;
+}
 
 /* Color variations for amount boxes */
-.amount-box.amount-5 {
-    background-color: #3498db; /* Blue */
-}
-
-.amount-box.amount-6 {
-    background-color: #e74c3c; /* Red */
-}
-
-.amount-box.amount-8 {
-    background-color: #2ecc71; /* Green */
-}
-
-.amount-box.amount-10 {
-    background-color: #f39c12; /* Yellow */
-}
-
-.amount-box.amount-12 {
-    background-color: #9b59b6; /* Purple */
-}
-
-.amount-box.amount-15 {
-    background-color: #34495e; /* Dark Blue */
-}
-
-.amount-box.amount-17 {
-    background-color: #16a085; /* Teal */
-}
-
-.amount-box.amount-20 {
-    background-color: #d35400; /* Orange */
-}
-
-.amount-box.amount-30 {
-    background-color: #c0392b; /* Dark Red */
-}
+.amount-box.amount-5 { background-color: #3498db; }
+.amount-box.amount-6 { background-color: #e74c3c; }
+.amount-box.amount-8 { background-color: #2ecc71; }
+.amount-box.amount-10 { background-color: #f39c12; }
+.amount-box.amount-12 { background-color: #9b59b6; }
+.amount-box.amount-15 { background-color: #34495e; }
+.amount-box.amount-17 { background-color: #16a085; }
+.amount-box.amount-20 { background-color: #d35400; }
+.amount-box.amount-30 { background-color: #c0392b; }
 
 /* Local Currency Styles */
 .local-currency {
     display: block;
     margin-top: 5px;
-    border-top: 2px solid #3498db; /* Blue color for the separation line */
     padding-top: 5px;
 }
 
 /* Hover effect on amount boxes */
 .amount-box:hover {
-    background-color: #555;
-    color: #fff;
+    background-color: #333;
+   color: white; 
+border: 2px;
+}
+input[type='submit'
+padding: 15px;
+        background-color: #333;
+}
+input[type="submit"]:hover {
+        opacity: 0.6;
 }
 

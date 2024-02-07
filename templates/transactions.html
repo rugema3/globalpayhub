@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Details</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/register.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/transactions.css') }}">
+    {% include 'header.html' %}
+</head>
+<body>
+    <br><br>
+    <h1>Review Transaction Details:</h1><br><br>
+
+    <form method="post" action="/complete_transaction">
+       
+        <table id="customers">
+            <tr>
+                <th>Details</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>
+                    {% if transaction_info.vertical_id == 'tax' %}
+                        Tax Payer
+                    {% elif transaction_info.vertical_id == 'electricity' %}
+                        Meter
+                    {% elif transaction_info.vertical_id == 'paytv' %}
+                        Card Number
+                    {% elif transaction_info.vertical_id == 'airtime' %}
+                        Phone Number
+                    {% endif %}
+                </td>
+                <td>{{ transaction_info.tax_payer }}</td>
+            </tr>
+            <tr>
+                <td>Biller Id</td>
+                <td>{{ transaction_info.customer_account_number }}</td>
+            </tr>
+            <tr>
+                <td>Tax Center</td>
+                <td>{{ transaction_info.extra_info.tax_center }}</td>
+            </tr>
+            <tr>
+                <td>Tax Identification Number</td>
+                <td>{{ transaction_info.extra_info.tin }}</td>
+            </tr>
+            <tr>
+                <td>Tax Type</td>
+                <td>{{ transaction_info.extra_info.tax_type }}</td>
+            </tr>
+            <tr>
+                <td>Tax Declaration Date</td>
+                <td>{{ transaction_info.extra_info.dec_date }}</td>
+            </tr>
+            <tr>
+                <td>Tax Credit</td>
+                <td>{{ transaction_info.vend_max_amount }} RWF</td>
+            </tr>
+            <tr>
+                <td>Amount</td>
+                <td>${{ transaction_info.usd_amount }}</td>
+            </tr>
+            <tr>
+                <td>Transaction Fee</td>
+                <td>${{ transaction_info.transaction_fee }}</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td>${{ transaction_info.total }}</td>
+            </tr>
+        </table>
+        <input type="submit" value="Proceed to PayPal" id="paypal-button">
+    </form>
+    <br><br>
+
+    {% include 'footer.html' %}
+</body>
+</html>
+

@@ -4,41 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transaction Details</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/register.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/transactions.css') }}">
-{% include 'header.html' %}
-
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/register.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/transactions.css') }}">
+    {% include 'header.html' %}
 </head>
 <body>
-	<br><br>
-    <h1>Transaction Details</h1>
+    <br><br>
+    <h1>Review Transaction Details:</h1><br><br>
 
-    <form method="post" action="/complete_transaction"style="height:50%">
+    <form method="post" action="/complete_transaction">
+	   
+        <table id="customers">
+            <tr>
+                <th>
+                    {% if transaction_info.vertical_id == 'electricity' %}
+                        Meter 
+                    {% elif transaction_info.vertical_id == 'paytv' %}
+                        Card Number
+                    {% elif transaction_info.vertical_id == 'tax' %}
+                        Biller Id
+		    {% elif transaction_info.vertical_id == 'airtime' %}
+		    	Phone Number
+		    {% else %}
+		    	Nothing
+                    {% endif %}
+                </th>
+                <th>Amount</th>
+                <th>Service</th>
+		<th>
+			{% if transaction_info.vertical_id == 'electricity' %}
+				Owner
+			{% elif transaction_info.vertical_id == 'tax' %}
+				Tax Payer
+			{% elif transaction_info.vertical_id == 'airtime' %}
+				
+			{% endif %}
+			
+		</th>
+		<th>Product</th>
+                <th>Fee</th>
+                <th>Credit</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td>{{ transaction_info.customer_account_number }}</td>
+                <td>${{ transaction_info.usd_amount }}</td>
+		<td>{{ transaction_info.vertical_id }}</td>
+		<td>{% if transaction_info.vertical_id == 'electricity' %}
+			{{ transaction_info.customer_name }}
+		    {% elif transaction_info.vertical_id == 'tax' %}
+		    	{{ transaction_info.customerAccountNumber }}
 
-<table id="customers">
-  <tr>
-    <th>Account Number</th>
-    <th>SD Amount</th>
-    <th>Code</th>
-  </tr>
-  <tr>
-    <td>{{ transaction_info.customer_account_number }}</td>
-    <td> {{ transaction_info.usd_amount }}</td>
-    <td>{{ transaction_info.vertical_id }}</td>
-  </tr>
+		    {% elif transaction_info.vertical_id == 'airtime' %}
 
-  <tr>
-    
-    <td rowspan="10"><input type="submit" value="Proceed to PayPal"></td>
-  </tr>
-  
+		    {% endif %}
+		</td>
+                <td>{{ transaction_info.product_name }}</td>
+                <td>${{ transaction_info.transaction_fee }}</td>
+                <td>{{ transaction_info.local_currency }} RWF</td>
+		<td>{{ transaction_info.total }}</td><br><br>
+            </tr>
+	    <!-- <input style="margin-top: 20px" type="submit" value="Proceed to PayPal" class="paypal-button"> -->
+        </table>
+	<input type="submit" value="Proceed to PayPal" id="paypal-button">
 
-</table>
-
-<!-- <input type="submit" value="Proceed to PayPal"> -->
     </form>
     <br><br>
 
     {% include 'footer.html' %}
 </body>
 </html>
+
